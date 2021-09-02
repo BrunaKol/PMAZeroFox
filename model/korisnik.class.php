@@ -3,21 +3,25 @@
 
 class Korisnik{
 
-    public static function spasi($korisnik){
-
+    public static function spasi ($korisnik){
         global $konekcija;
+        $ulogak = $korisnik["ulogak"];
+        $ime = htmlspecialchars(mysqli_real_escape_string($konekcija, $korisnik["imeKorisnika"]));
+        $prezime = htmlspecialchars(mysqli_real_escape_string($konekcija, $korisnik["prezimeKorisnika"]));
+        $email = htmlspecialchars(mysqli_real_escape_string($konekcija, $korisnik["emailKorisnika"]));
+        $lozinka = md5($korisnik["lozinkaKorisnika"]);
+        $uloga = htmlspecialchars(mysqli_real_escape_string($konekcija, $korisnik["ulogaKorisnika"]));
 
-        $ime = $korisnik["imeKorisnika"];
-        $uloga = $korisnik["ulogaKorisnika"];
-        $prezime = $korisnik["prezimeKorisnika"];
-        $email = $korisnik["emailKorisnika"];
-        $lozinka = $korisnik["lozinkaKorisnika"];
-        $uloga = $korisnik["uloga"];
-
-        $upit = "INSERT INTO korisnik VALUES (null, 2, '".$ime."', '".$prezime."', '".$email."', '".$lozinka."', '".$uloga."')";
-        return mysqli_query($konekcija, $upit);
+        $upit = "INSERT INTO korisnik (ID, IDUloge, Ime, Prezime, email, lozinka, Uloga) VALUES (null, '".$ulogak."', '".$ime."', '".$prezime."', '".$email."', '".$lozinka."', '".$uloga."');";
         
+        return mysqli_query($konekcija, $upit);
+    }
 
+    public static function dohvatijednog( $id){
+        global $konekcija;
+        $upit = "SELECT * FROM korisnik WHERE ID =" .$id;
+        $rezultat = mysqli_query($konekcija, $upit);
+         return mysqli_fetch_assoc($rezultat);
 
     }
 
@@ -38,6 +42,8 @@ class Korisnik{
          return $lista;
 
     }
+
+    
 }
 
 

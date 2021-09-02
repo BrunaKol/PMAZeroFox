@@ -25,6 +25,7 @@ if (isset($_POST["emailKorisnika"])){
 }
 
 $naslov = "Login to ZeroFox";
+
 include("static/header.php");
 ?>
 

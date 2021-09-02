@@ -53,6 +53,7 @@ include("static/header.php");
                             <td><?= $korisnik["Ime"] ?></td>
                             <td><?= $korisnik["Prezime"] ?></td>
                             <td><?= $korisnik["email"] ?></td>
+                            <td><a title="Edit user" class="btn btn-info" ref="<?= $korisnik["ID"]?>" href="users/edit.php" onclick="dohvati_korisnika(event);"><i class="fas fa-user-edit"></i></a></td>
                             <td><a title="Delete user" class="btn btn-info" href="index.php?akcija=pobrisi&id=<?=$korisnik["ID"] ?>"><i class="fas fa-user-slash"></i></a></td>
                         </tr>
 
@@ -61,19 +62,20 @@ include("static/header.php");
                     endforeach
 
                     ?>
+
                     </table>
                     <div class="col-4">
-                    <form method="POST" action="register.php">
+                    <form method="POST" action="users/add.php">
 
                         <div class="form-group">
                             <label>Users Role</label>
-                            <select class="form-control" name="ulogaKorisnika"> 
-                                <option value=1>Administrator</option>
-                                <option value=2>Korisnik</option>
-                                <option value=3>Gost</option>
+                            <select class="form-control" name="ulogak"> 
+                                <option value="1">Administrator</option>
+                                <option value="2">Korisnik</option>
+                                <option value="3">Gost</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Users Name</label>
                             <input type="text" class="form-control" name="imeKorisnika" placeholder="First Name" />
@@ -96,7 +98,7 @@ include("static/header.php");
 
                         <div class="form-group">
                             <label>Users Role</label>
-                            <select class="form-control" name="uloga"> 
+                            <select class="form-control" name="ulogaKorisnika"> 
                                 <option value="Administrator">Administrator</option>
                                 <option value="Korisnik">Korisnik</option>
                                 <option value="Gost">Gost</option>
@@ -113,7 +115,22 @@ include("static/header.php");
             </div>
         </div>
 
+<script>
+    function dohvati_korisnika(e){
+        e.preventDefault();
+        console.log(e.target);
+        var id = e.target.getAttribute("ref");
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status == 200){
+                console.log(this.responseText); 
+            }
+        }
+        xhttp.open("GET", "users/get.php?id="+id, true);
+        xhttp.send();
 
+    }
+    </script>
   
 <?php
 include("static/footer.php");
