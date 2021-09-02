@@ -1,5 +1,6 @@
 <?php
-require ("zerofoxdb.php");
+require ("model/zerofoxdb.php");
+
 if (isset($_POST["imeKorisnika"])) {
     if ($_POST["imeKorisnika"] == ""  || $_POST["prezimeKorisnika"] == "" || $_POST["emailKorisnika"] == "" ||  $_POST["lozinkaKorisnika"] == "" || $_POST["pLozinkaKorisnika"] == "")
         $greska = "Fill up all the fields.";
@@ -10,31 +11,14 @@ if (isset($_POST["imeKorisnika"])) {
         $SQL.= $_POST["imeKorisnika"] . "', '";
         $SQL.= $_POST["prezimeKorisnika"] . "', '";
         $SQL.= $_POST["emailKorisnika"] . "', '";
-        $SQL.= $_POST["lozinkaKorisnika"] . "', 'Korisnik');";
-        //print(mysqli_error($konekcija));
-        //print($SQL);
+        $SQL.= md5($_POST["lozinkaKorisnika"]) . "', 'Korisnik');";
         $rezultat = mysqli_query($konekcija, $SQL);
     }
 }
+$naslov = "Sign up to ZeroFox";
+include("static/header.php");
 ?>
 
-
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-
-    <title>Registracija na ZeroFox</title>
-    <style>
-        html, body {
-            height:100% !important;
-        }
-    </style>
-  </head>
-
-  <body>
       <div class="container h-100">
           <div class="row align-items-center h-100">
               <div class="col large shadow p-4">
@@ -67,7 +51,7 @@ if (isset($_POST["imeKorisnika"])) {
                     <label>Password again</label>
                     <input type="password" class="form-control" name="pLozinkaKorisnika" placeholder="Confirm password" />
                 </div>
-                
+                <p>Already have an account? Log in <a href="login.php">here</a>.</p>
                 <button type="submit" class="btn btn-primary">Sign up</button>
             </form>
               </div>
@@ -76,8 +60,6 @@ if (isset($_POST["imeKorisnika"])) {
 
 
   
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-
-    
-  </body>
-</html>
+<?
+include("static/footer.php");
+?>
